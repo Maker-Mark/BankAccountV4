@@ -1,13 +1,16 @@
 /**
  * @author Mark Goldstein
  */
+import java.util.ArrayList;
 
 public class BankAccount {
 	//data members of BankAccount object
 	private Depositor accDet = new Depositor();
 	private int accNum;
 	private String accType;
+	private boolean closed = false;
 	private double accBal;
+	ArrayList<Transaction> trans; 
 	
 	//Default constructor
 	public BankAccount()
@@ -16,6 +19,7 @@ public class BankAccount {
 		accNum = 0;
 		accType = "none";
 		accBal = 0.00;
+		closed = false;
 	}
 	
 	//Constructor for initializing object with values
@@ -30,11 +34,44 @@ public class BankAccount {
 		first = accDet.getNameOnAcc().getFirst();
 		last = accDet.getNameOnAcc().getLast();
 		social= accDet.getSocSec();
+		closed = false;
 
 	}
+	
+	public  boolean closeAcct(int index) {
+		
+//				 index = bank.findAcct(bank.findAcct(index)); 
+				// Checks that account not in use
+				if(index != -1) {
+				closed = true;
+					
+					return true;
+				}
+				return false;
+	}
+
+	public  void reOpenAcct(BankAccount bankAcc) {
+		
+//				 int index = bankAcc.getAccNum(); 
+//				// Checks that account not in use
+//				if(index != -1) {
+				closed = false;
+//				return true;
+	}
+	public  ArrayList<Transaction>  getTransactions(int index, Bank bank) 
+	{
+		return trans;
+	}
+	
+	
+	public void addTransaction(BankAccount bankAcc, double amount) {
+//		int index = bankAcc.getAccNum();
+//		trans.set(index, amount);
+	}
+	
 	//Method for setting data member accDet,
 	//which is of Depositor-object type
-	public void setAccDet(String first, String last, String social) 
+	public  void setAccDet(String first, String last, String social) 
 	{
 		accDet.setNameOnAcc(first, last);
 		accDet.setSocSec(social);

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Bank {
 	private final int MAX_NUM = 50;
-	private ArrayList <BankAccount> bankAccList ;
+	private  ArrayList <BankAccount> bankAccList ;
 	private String bankName ;
 
 	//Default constructor for creating bank account
@@ -25,17 +25,76 @@ public class Bank {
 	public boolean openNewAccount( BankAccount bankAccount)
 	{
 		int index = findAcct(bankAccount);// Checks that account not in use
-		if(index == -1) {
+		if(index != -1) {
 			bankAccList.add(bankAccount);
 			System.out.print(" this is from open ");
 			return true;
-		} else{
+		} else {
 			return false;
-			 
+
 		}
 
 	}
+	/*
+	 * Method findAcc():
+	 * Input:requested account
+	 * Process: linear search requested account.
+	 * Output: index of account requested
+	 */
+	private int findAcct( BankAccount  bankAccount)
+	{
 
+		for (int index = 0; index < bankAccList.size(); index++)
+			if (bankAccList.get(index).getAccNum() == bankAccount.getAccNum()) {
+				System.out.print("from FIND");
+				return index;// returns index
+			}
+
+		return -1;
+	}
+
+	/**
+	 * Method for find acct when account number 
+	 * @param index
+	 * @return
+	 */
+	private int findAcct( int  accNum)
+	{
+		for (int i = 0; i < bankAccList.size(); i++) {
+//			System.out.println(bankAccList.get(i).getAccNum());
+//			System.out.println(accNum);
+			if (bankAccList.get(i).getAccNum() == accNum ) {
+				
+				return i;// returns index
+			}
+			
+		}
+		return -1;
+	}
+
+
+
+
+	private int findAcctSSN(String social )
+	{
+
+		if(social.length() == 9) {
+			for (int index = 0; index < bankAccList.size(); index++) {
+				if (bankAccList.get(index).getAccDet().
+						getSocSec().equals(social)) {
+					return index;
+				}
+			}
+			return -1;
+			//flag for no account found
+
+		}
+		else
+		{
+			//flag for invalid length
+			return -2;
+		}
+	}
 	/*
 	 * Method openNewAccount():
 	 * Input: Parameters for making a new account
@@ -46,28 +105,28 @@ public class Bank {
 	 * and passed to successfully do this.
 	 * Output:
 	 */
-//	public void openNewAccount( int reqAcc, int accountNum,
-//			double accBal, String first,
-//			String last, String socSec, String type)
-//	{
-//		//		int index = findAcct(reqAcc);// Checks that account not in use
-//		//		if(index === -1) {
-		//			bankAcc.add(arg0)
-		//		}
-//		bankAcc = new BankAccount[numAccts];
-//		bankAcc[numAccts].setAccNum(accountNum);
-//		bankAcc[numAccts].setAccType(type);
-//		bankAcc[numAccts].setAccBal(accBal);
-//		bankAcc[numAccts].setAccDet(first,last, socSec);
-////		numAccts++;
-//	}
-	
-	
-	public boolean openNewAccount( int accNum)
+//		public void openNewAccount( int reqAcc, int accountNum,
+//				double accBal, String first,
+//				String last, String socSec, String type)
+//		{
+//			//		int index = findAcct(reqAcc);// Checks that account not in use
+//			//		if(index === -1) {
+//				bankAcc.add(arg0)
+//			}
+//			bankAcc = new BankAccount[numAccts];
+//			bankAcc[numAccts].setAccNum(accountNum);
+//			bankAcc[numAccts].setAccType(type);
+//			bankAcc[numAccts].setAccBal(accBal);
+//			bankAcc[numAccts].setAccDet(first,last, socSec);
+//	//		numAccts++;
+//		}
+
+
+	public boolean openNewAccount( int accNum, BankAccount bankAcc)
 	{
 		int index = findAcct(accNum);// Checks that account not in use
 		if(index == -1) {
-//			bankAccList.add(bankAccount);
+						bankAccList.add(bankAcc);
 			return true;
 		} else{
 			return false;
@@ -95,58 +154,7 @@ public class Bank {
 		}
 	}
 
-	/*
-	 * Method findAcc():
-	 * Input:requested account
-	 * Process: linear search requested account.
-	 * Output: index of account requested
-	 */
-	public int findAcct( BankAccount  bankAccount)
-	{
-		
-		for (int index = 0; index < bankAccList.size(); index++)
-			if (bankAccList.get(index).getAccNum() == bankAccount.getAccNum()) {
-				System.out.print("from FIND");
-				return index;// returns index
-			}
 
-		return -1;
-	}
-	
-	/**
-	 * Method for find acct when account number 
-	 * @param index
-	 * @return
-	 */
-	public int findAcct( int  accNum)
-	{
-		for (int i = 0; i < bankAccList.size(); i++)
-			if (bankAccList.get(i).getAccNum() == accNum )
-				return i;// returns index
-		return -1;
-	}
-
-
-	public int findAcctSSN(String social )
-	{
-
-		if(social.length() == 9) {
-			for (int index = 0; index < bankAccList.size(); index++) {
-				if (bankAccList.get(index).getAccDet().
-						getSocSec().equals(social)) {
-					return index;
-				}
-			}
-			return -1;
-			//flag for no account found
-
-		}
-		else
-		{
-			//flag for invalid length
-			return -2;
-		}
-	}
 	/**
 	 * Method setAcctInfo():
 	 * Input:Index of account, amount and if deposit.
@@ -157,8 +165,8 @@ public class Bank {
 	 */
 	public void setAcctInfo( BankAccount bankAcct, boolean deposit)
 	{
-		
-		
+
+
 		int index = findAcct(bankAcct);
 		bankAcct = bankAccList.get(index);
 		if (deposit) {
@@ -174,46 +182,74 @@ public class Bank {
 		}
 
 	}
-	
-	
+
+
 	public void setAcctInfo( int index, double amount, Bank bank, boolean deposit)
 	{
-		 BankAccount bankAcc = new BankAccount( bank.getAcct(index).getAccDet().getNameOnAcc().getFirst(), 
-					bank.getAcct(index).getAccDet().getNameOnAcc().getLast(), 
-					bank.getAcct(index).getAccDet().getSocSec(),
-					bank.getAcct(index).getAccNum(), 
-					bank.getAcct(index).getAccType(),
-					bank.getAcct(index).getAccBal());
-		 int accNum = findAcct(index);
+		BankAccount bankAcc = new BankAccount( bank.getAcct(index).getAccDet().getNameOnAcc().getFirst(), 
+				bank.getAcct(index).getAccDet().getNameOnAcc().getLast(), 
+				bank.getAcct(index).getAccDet().getSocSec(),
+				bank.getAcct(index).getAccNum(), 
+				bank.getAcct(index).getAccType(),
+				bank.getAcct(index).getAccBal());
+		int accNum = findAcct(index);
 		if (deposit) {
-		
-	
-		bank.getAcct(index).setAccBal((bank.getAcct(index).getAccBal()) + amount);
-			
+
+
+			bank.getAcct(index).setAccBal((bank.getAcct(index).getAccBal()) + amount);
+
 		} else {
-			
+
 			bank.getAcct(index).setAccBal((bank.getAcct(index).getAccBal()) - amount);
 
-			
+
 		}
 
 	}
 
+
+	//	public BankAccount getAcct(int acct)
+	//	{
+	////		BankAccount bankAcc = new BankAccount( bank.getAcct(index).getAccDet().getNameOnAcc().getFirst(), 
+	////				bank.getAcct(index).getAccDet().getNameOnAcc().getLast(), 
+	////				bank.getAcct(index).getAccDet().getSocSec(),
+	////				bank.getAcct(index).getAccNum(), 
+	////				bank.getAcct(index).getAccType(),
+	////				bank.getAcct(index).getAccBal());
+	//		int index = findAcct(acct);
+	//		return bankAccList.get(index);
+	//	}
+
+
 	//Getter for account object
-	public BankAccount getAcct(int acct, boolean accNum)
+	//	public BankAccount getAcct(int acct, boolean accNum)
+	//	{
+	//		int index = findAcct(acct);
+	//		return bankAccList.get(index);
+	//	}
+	//Getter for account object
+	public  BankAccount getAcct(int accNum)
 	{
-		int index = findAcct(acct);
+		int index = findAcct(accNum);
+		System.out.println(index);
+		System.out.println(bankAccList.size());
 		return bankAccList.get(index);
 	}
-	//Getter for account object
-	public BankAccount getAcct(int index)
+
+	public  BankAccount getAcct(String social)
 	{
-//		int index = findAcct(acct);
+		int index = findAcctSSN(social);
+		System.out.println(index);
+		System.out.println(bankAccList.size());
 		return bankAccList.get(index);
 	}
+
+
 	public int getNumAcc() {
 		return bankAccList.size();
 	}
+
+
 
 
 }

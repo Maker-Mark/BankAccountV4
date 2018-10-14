@@ -24,12 +24,12 @@ public class BankAccountV4Main {
 		Bank bank = new Bank();// default bank object creation
 
 		// Open input test cases file
-		//File testFile = new File("myinput.txt");
-		File testFile = new File("mytestcases.txt");
+		File testFile = new File("myinput.txt");
+//		File testFile = new File("mytestcases.txt");
 
 		// Create Scanner object
-		Scanner kybd = new Scanner(testFile);
-		//Scanner kybd = new Scanner(System.in);
+//		Scanner kybd = new Scanner(testFile);
+		Scanner kybd = new Scanner(System.in);
 
 		// open the output file
 //		PrintWriter outFile = new PrintWriter("myoutput.txt");
@@ -127,7 +127,7 @@ public class BankAccountV4Main {
 					Integer.parseInt(lineTok.nextToken()), 
 					lineTok.nextToken(), Double.parseDouble(lineTok.nextToken()));
 			System.out.println(bankAcc.getAccDet().getSocSec());
-			bank.openNewAccount(bankAcc);
+			bank.openNewAccount( bankAcc);
 		}
 		// closes the input file
 		sc.close();
@@ -153,11 +153,16 @@ public class BankAccountV4Main {
 				+ "\tAccount Type   Balance \n");
 		outFile.println("/----------------------------------------------"
 				+ "----------------------------------\\");
-
-		for (int index = 0; index < bank.getNumAcc(); index++) {
+		
+		
+		for (int index = 0; index < bank.getNumAcc() -1; index++) {
 			outFile.println();
-			myBankAcc = bank.getAcct(index);
+//			bank.getAcct();
+			if(myBankAcc.getAccNum() != -1) {
+			myBankAcc = bank.getAcct(bank.getAcct(index).getAccNum()) ;
+			
 			myName = myBankAcc.getAccDet().getNameOnAcc();
+			
 			outFile.printf("%-11s", myName.getFirst());
 			outFile.printf("%-16s", myName.getLast());
 			outFile.printf("%-17s",myBankAcc.getAccDet().getSocSec());
@@ -166,6 +171,9 @@ public class BankAccountV4Main {
 			outFile.printf("%-14s", myBankAcc.getAccType());
 			outFile.printf("$%9.2f", myBankAcc.getAccBal());
 			outFile.println();
+			}else { 
+				System.out.println("ERROR");
+			}
 		}
 		outFile.println("\\----------------------------------------------"
 				+ "----------------------------------/");
@@ -217,7 +225,7 @@ public class BankAccountV4Main {
 			PrintWriter outFile, Scanner kybd) {
 		//Makes temp string to ensure validity
 		String tempInput;
-		int temp = 0 ;// temporary index that will be tested for validity.
+//		int temp = 0 ;// temporary index that will be tested for validity.
 		System.out.println("Enter Social Secial Security Number"
 				+ " to Get Account Information");
 		outFile.flush();
@@ -227,7 +235,7 @@ public class BankAccountV4Main {
 			//temp is the signal, either will be a index, positive if
 			// account is there, or one of the negative, which will 
 			//trigger an error message.
-			temp = bank.findAcctSSN(tempInput);
+			BankAccount temp = bank.getAcct(tempInput);
 			if(temp > -1) {
 
 				outFile.println("Transaction Requested: Account Information");
@@ -292,8 +300,7 @@ public class BankAccountV4Main {
 	 */
 
 	public static void balance(Bank bank, 
-			PrintWriter outFile, Scanner kybd) 
-	{
+			PrintWriter outFile, Scanner kybd) {
 		int requestedAccount;
 		int index;
 		String accLength; // Sets up new account as string to ensure validity
@@ -313,9 +320,22 @@ public class BankAccountV4Main {
 			{
 				requestedAccount = Integer.parseInt(accLength);
 				// call findAcct to search if requestedAccount exists
-
-				index = bank.findAcct( requestedAccount);
-				if (index == -1) // invalid account
+				
+				BankAccount bankAcc = new BankAccount( bank.getAcct(requestedAccount).getAccDet().getNameOnAcc().getFirst(), 
+						bank.getAcct(requestedAccount).getAccDet().getNameOnAcc().getLast(), 
+						bank.getAcct(requestedAccount).getAccDet().getSocSec(),
+						bank.getAcct(requestedAccount).getAccNum(), 
+						bank.getAcct(requestedAccount).getAccType(),
+						bank.getAcct(requestedAccount).getAccBal());
+//				boolean valid = bank.getAcct(requestedAccount);
+				boolean valid ;
+				for(int q = 0; q < bank.getNumAcc();q++) {
+					bankAcc = bank.getAcct(requestedAccount);
+					 if   bankAcc.getAccNum() == requestedAccount;
+				}
+				
+//				boolean sucess = 
+				if (!valid) // invalid account
 				{
 					outFile.println("Transaction Requested: Balance Inquiry");
 					outFile.println("Error: Account number " + requestedAccount 
@@ -328,7 +348,7 @@ public class BankAccountV4Main {
 					outFile.println("Account Number: " + requestedAccount);
 					outFile.printf("Current Balance: $%.2f", 
 							
-							bank.getAcct(requestedAccount, accNum ).getAccBal());
+							bank.getAcct(requestedAccount).getAccBal());
 					outFile.println();
 				}
 			}
@@ -759,7 +779,8 @@ public class BankAccountV4Main {
 			delAcct = Integer.parseInt(accLength);
 
 			delTemp = Integer.toString(delAcct);
-			index = bank.findAcct(delAcct);
+			
+			index = bank.getAcctIndex(delAcct);
 			if (index == -1) {
 				outFile.println("Transaction Requested: Delete Account");
 				outFile.println("Error: Account entered does not exist!");
@@ -771,11 +792,11 @@ public class BankAccountV4Main {
 						+ "\nAccount numbers must be a 6-digit integer "
 						+ "\nbetween 100000 and 999999.\n\n");
 			} 
-			else if (bank.getAcct(bank.findAcct(delAcct)).getAccBal() != 0.00) 
+			else if (bank.getAcct(delAcct).getAccBal() != 0.00) 
 			{
 				outFile.println("Transaction Requested: Delete Account");
 				outFile.printf("Error: Account "+delTemp+" is not empty.\nRemove $");
-				outFile.printf("%.2f %s", bank.getAcct(bank.findAcct(delAcct)).getAccBal(), 
+				outFile.printf("%.2f %s", bank.getAcct(delAcct)).getAccBal(), 
 						"from account before deleting.\n");
 			} 
 			else 
