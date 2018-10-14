@@ -24,12 +24,12 @@ public class BankAccountV4Main {
 		Bank bank = new Bank();// default bank object creation
 
 		// Open input test cases file
-		File testFile = new File("myinput.txt");
-		//File testFile = new File("mytestcases.txt");
+		//File testFile = new File("myinput.txt");
+		File testFile = new File("mytestcases.txt");
 
 		// Create Scanner object
-		//Scanner kybd = new Scanner(testFile);
-		Scanner kybd = new Scanner(System.in);
+		Scanner kybd = new Scanner(testFile);
+		//Scanner kybd = new Scanner(System.in);
 
 		// open the output file
 //		PrintWriter outFile = new PrintWriter("myoutput.txt");
@@ -323,10 +323,12 @@ public class BankAccountV4Main {
 				} 
 				else // valid account
 				{
+					boolean accNum = true; //signal to use find acc via number constructor
 					outFile.println("Transaction Requested: Balance Inquiry");
 					outFile.println("Account Number: " + requestedAccount);
 					outFile.printf("Current Balance: $%.2f", 
-							bank.getAcct(requestedAccount).getAccBal());
+							
+							bank.getAcct(requestedAccount, accNum ).getAccBal());
 					outFile.println();
 				}
 			}
@@ -415,14 +417,8 @@ public class BankAccountV4Main {
 								bank.getAcct(index).getAccBal());
 						outFile.println();
 						outFile.printf("Amount to Deposit: %.2f \n" , amountToDeposit);
-						// Makes the deposit via Bank object method 
-						BankAccount bankAcc = new BankAccount( bank.getAcct(index).getAccDet().getNameOnAcc().getFirst(), 
-								bank.getAcct(index).getAccDet().getNameOnAcc().getLast(), 
-								bank.getAcct(index).getAccDet().getSocSec(),
-								bank.getAcct(index).getAccNum(), 
-								bank.getAcct(index).getAccType(), bank.getAcct(index).getAccBal());
-						bank.openNewAccount(bankAcc);
-						bank.setAcctInfo(bankAcc, deposit); 
+								
+						bank.setAcctInfo(index, amountToDeposit, bank, deposit); 
 						outFile.printf("New Balance: $%.2f", 
 								bank.getAcct(index).getAccBal());
 						outFile.println();
@@ -531,14 +527,24 @@ public class BankAccountV4Main {
 									amountToWithdraw);
 							boolean deposit = false;//Telling bank 
 							
-							BankAccount bankAcc = new BankAccount( bank.getAcct(index).getAccDet().getNameOnAcc().getFirst(), 
-									bank.getAcct(index).getAccDet().getNameOnAcc().getLast(), 
-									bank.getAcct(index).getAccDet().getSocSec(),
-									bank.getAcct(index).getAccNum(), 
-									bank.getAcct(index).getAccType(), bank.getAcct(index).getAccBal());
-							bank.openNewAccount(bankAcc);
-							bank.setAcctInfo(bankAcc, deposit); 
+//							BankAccount bankAcc = new BankAccount( bank.getAcct(index).getAccDet().getNameOnAcc().getFirst(), 
+//									bank.getAcct(index).getAccDet().getNameOnAcc().getLast(), 
+//									bank.getAcct(index).getAccDet().getSocSec(),
+//									bank.getAcct(index).getAccNum(), 
+//									bank.getAcct(index).getAccType(),
+//									bank.getAcct(index).getAccBal());
+							
+							
+//							bank.getAcct(index).setAccBal((bank.getAcct(index).getAccBal()) - amountToWithdraw);
 
+							bank.setAcctInfo(index, amountToWithdraw, bank, deposit); 
+//							bank.openNewAccount(bankAcc);
+							
+							
+
+							
+							
+							
 							outFile.printf("\nNew Balance: "
 									+ "$%.2f", bank.getAcct(index).getAccBal());
 							outFile.println();
@@ -774,7 +780,7 @@ public class BankAccountV4Main {
 			} 
 			else 
 			{ 
-//				bank.deleteAcct(index);
+				bank.deleteAcct(bank.getAcct(index));
 				outFile.println("Transaction Requested: Delete Account");
 				outFile.println("Successfully deleted account number: " + delAcct);
 			}

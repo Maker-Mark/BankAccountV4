@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 public class Bank {
 	private final int MAX_NUM = 50;
-	private int numAccts ; // number of accounts
 	private ArrayList <BankAccount> bankAccList ;
 	private String bankName ;
 
@@ -15,7 +14,6 @@ public class Bank {
 	{
 		bankName = "E Corp";
 		bankAccList = new ArrayList<>();
-		numAccts = 0;
 	}
 	/*
 	 * Method openNewAccount():
@@ -24,18 +22,17 @@ public class Bank {
 	 * spot of bank account arry
 	 * Output: Void
 	 */
-	public void openNewAccount( BankAccount bankAccount)
+	public boolean openNewAccount( BankAccount bankAccount)
 	{
-//		int index = findAcct(bankAccount);// Checks that account not in use
-//		if(index == -1) {
+		int index = findAcct(bankAccount);// Checks that account not in use
+		if(index == -1) {
 			bankAccList.add(bankAccount);
 			System.out.print(" this is from open ");
-//			return true;
-//		} else{
-//			return false;
-//			 
-//		}
-
+			return true;
+		} else{
+			return false;
+			 
+		}
 
 	}
 
@@ -76,8 +73,6 @@ public class Bank {
 			return false;
 			// numAccts++;
 		}
-
-
 	}
 
 	/*
@@ -108,13 +103,13 @@ public class Bank {
 	 */
 	public int findAcct( BankAccount  bankAccount)
 	{
-		System.out.print("from FIND");
+		
 		for (int index = 0; index < bankAccList.size(); index++)
 			if (bankAccList.get(index).getAccNum() == bankAccount.getAccNum()) {
 				System.out.print("from FIND");
 				return index;// returns index
 			}
-		
+
 		return -1;
 	}
 	
@@ -162,7 +157,10 @@ public class Bank {
 	 */
 	public void setAcctInfo( BankAccount bankAcct, boolean deposit)
 	{
+		
+		
 		int index = findAcct(bankAcct);
+		bankAcct = bankAccList.get(index);
 		if (deposit) {
 			bankAccList.set(index, bankAcct);
 
@@ -176,7 +174,37 @@ public class Bank {
 		}
 
 	}
+	
+	
+	public void setAcctInfo( int index, double amount, Bank bank, boolean deposit)
+	{
+		 BankAccount bankAcc = new BankAccount( bank.getAcct(index).getAccDet().getNameOnAcc().getFirst(), 
+					bank.getAcct(index).getAccDet().getNameOnAcc().getLast(), 
+					bank.getAcct(index).getAccDet().getSocSec(),
+					bank.getAcct(index).getAccNum(), 
+					bank.getAcct(index).getAccType(),
+					bank.getAcct(index).getAccBal());
+		 int accNum = findAcct(index);
+		if (deposit) {
+		
+	
+		bank.getAcct(index).setAccBal((bank.getAcct(index).getAccBal()) + amount);
+			
+		} else {
+			
+			bank.getAcct(index).setAccBal((bank.getAcct(index).getAccBal()) - amount);
 
+			
+		}
+
+	}
+
+	//Getter for account object
+	public BankAccount getAcct(int acct, boolean accNum)
+	{
+		int index = findAcct(acct);
+		return bankAccList.get(index);
+	}
 	//Getter for account object
 	public BankAccount getAcct(int index)
 	{
