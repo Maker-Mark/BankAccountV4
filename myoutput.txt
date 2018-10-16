@@ -5,3 +5,40 @@ First 	   Last		    Social Security#    Account#	Account Type   Balance
 /--------------------------------------------------------------------------------\
 \--------------------------------------------------------------------------------/
 
+Transaction Requested: Balance Inquiry
+Error: Account number 100002 does not exist.
+
+Transaction Requested: Balance Inquiry
+Error: Account number 122221 does not exist.
+
+Transaction Requested: Deposit
+Error: Account number 100006 does not exist.
+
+Error: 1 is an invalid selection -  try again
+
+Transaction Requested: Deposit
+Error: Account number 100002 does not exist.
+
+Error: - is an invalid selection -  try again
+
+Transaction Requested: Deposit
+Error: Account number 122224 does not exist.
+
+Transaction Requested: Withdrawal
+Error: Account number 100003 does not exist
+
+Error: 1 is an invalid selection -  try again
+
+Transaction Requested: Withdrawal
+Error: Account number 100003 does not exist
+
+Error: - is an invalid selection -  try again
+
+Transaction Requested: Withdrawal
+Error: Account number 100003 does not exist
+
+Error: 3 is an invalid selection -  try again
+
+Transaction Requested: Withdrawal
+Error: Account number 134243 does not exist
+

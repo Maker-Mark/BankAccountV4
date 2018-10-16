@@ -3,7 +3,16 @@ public class Transaction {
 		private String type;
 		private double amount;
 		
-	Transaction transaction = new Transaction();
+
+	public Transaction() {
+		type = "one";
+		amount = 0.00;
+	}
+	public Transaction(String typeGiven, double amt) {
+		type = typeGiven;
+		amount = amt;
+	}
+	
 	
 	
 	public void setTransType(String givenType) {

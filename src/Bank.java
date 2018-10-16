@@ -41,7 +41,7 @@ public class Bank {
 	 * Process: linear search requested account.
 	 * Output: index of account requested
 	 */
-	private int findAcct( BankAccount  bankAccount)
+	public int findAcct( BankAccount  bankAccount)
 	{
 
 		for (int index = 0; index < bankAccList.size(); index++)
@@ -58,13 +58,13 @@ public class Bank {
 	 * @param index
 	 * @return
 	 */
-	private int findAcct( int  accNum)
+	public int findAcct(int accNum)
 	{
 		for (int i = 0; i < bankAccList.size(); i++) {
 //			System.out.println(bankAccList.get(i).getAccNum());
 //			System.out.println(accNum);
 			if (bankAccList.get(i).getAccNum() == accNum ) {
-				
+				System.out.println(bankAccList.get(i).getAccNum());
 				return i;// returns index
 			}
 			
@@ -75,7 +75,7 @@ public class Bank {
 
 
 
-	private int findAcctSSN(String social )
+	public int findAcctSSN(String social )
 	{
 
 		if(social.length() == 9) {
@@ -105,22 +105,6 @@ public class Bank {
 	 * and passed to successfully do this.
 	 * Output:
 	 */
-//		public void openNewAccount( int reqAcc, int accountNum,
-//				double accBal, String first,
-//				String last, String socSec, String type)
-//		{
-//			//		int index = findAcct(reqAcc);// Checks that account not in use
-//			//		if(index === -1) {
-//				bankAcc.add(arg0)
-//			}
-//			bankAcc = new BankAccount[numAccts];
-//			bankAcc[numAccts].setAccNum(accountNum);
-//			bankAcc[numAccts].setAccType(type);
-//			bankAcc[numAccts].setAccBal(accBal);
-//			bankAcc[numAccts].setAccDet(first,last, socSec);
-//	//		numAccts++;
-//		}
-
 
 	public boolean openNewAccount( int accNum, BankAccount bankAcc)
 	{
@@ -141,11 +125,11 @@ public class Bank {
 	 * to remove and replace the deleted account.
 	 * Output: none
 	 */
-	public boolean deleteAcct(BankAccount bankAccount)
+	public boolean deleteAcct(int index )
 	{
 		//Efficiently deletes account by cutting last account in array
 		//and replacing the selected account found for deletion.
-		int index = findAcct(bankAccount);
+//		int index = findAcct(bankAccount);
 		if( index != 1 ){
 			bankAccList.remove(index); 
 			return true;
@@ -163,7 +147,7 @@ public class Bank {
 	 * sets the account balance to that amount.
 	 * Outout:None
 	 */
-	public void setAcctInfo( BankAccount bankAcct, boolean deposit)
+	public void setAcct( BankAccount bankAcct, boolean deposit)
 	{
 
 
@@ -208,17 +192,17 @@ public class Bank {
 	}
 
 
-	//	public BankAccount getAcct(int acct)
-	//	{
-	////		BankAccount bankAcc = new BankAccount( bank.getAcct(index).getAccDet().getNameOnAcc().getFirst(), 
-	////				bank.getAcct(index).getAccDet().getNameOnAcc().getLast(), 
-	////				bank.getAcct(index).getAccDet().getSocSec(),
-	////				bank.getAcct(index).getAccNum(), 
-	////				bank.getAcct(index).getAccType(),
-	////				bank.getAcct(index).getAccBal());
-	//		int index = findAcct(acct);
-	//		return bankAccList.get(index);
-	//	}
+		public BankAccount getAcct(int index)
+		{
+	//		BankAccount bankAcc = new BankAccount( bank.getAcct(index).getAccDet().getNameOnAcc().getFirst(), 
+	//				bank.getAcct(index).getAccDet().getNameOnAcc().getLast(), 
+	//				bank.getAcct(index).getAccDet().getSocSec(),
+	//				bank.getAcct(index).getAccNum(), 
+	//				bank.getAcct(index).getAccType(),
+	//				bank.getAcct(index).getAccBal());
+			
+			return bankAccList.get(index);
+		}
 
 
 	//Getter for account object
@@ -228,17 +212,17 @@ public class Bank {
 	//		return bankAccList.get(index);
 	//	}
 	//Getter for account object
-	public  BankAccount getAcct(int accNum)
-	{
-		int index = findAcct(accNum);
-		System.out.println(index);
-		System.out.println(bankAccList.size());
-		return bankAccList.get(index);
-	}
+////	public  BankAccount getAcct(int accNum)
+////	{
+////		int index = findAcct(accNum);
+////		System.out.println(index);
+//		System.out.println(bankAccList.size());
+////		return bankAccList.get(index);
+////	}
 
 	public  BankAccount getAcct(String social)
 	{
-		int index = findAcctSSN(social);
+		int index = findAcctSSN(social) ;
 		System.out.println(index);
 		System.out.println(bankAccList.size());
 		return bankAccList.get(index);
