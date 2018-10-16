@@ -26,12 +26,12 @@ public class BankAccountV4Main {
 			Bank bank = new Bank();// default bank object creationmo	`
 
 			// Open input test cases file
-			//File testFile = new File("myinput.txt");
-			File testFile = new File("mytestcases.txt");
+			File testFile = new File("myinput.txt");
+			//File testFile = new File("mytestcases.txt");
 
 			// Create Scanner object
-			Scanner kybd = new Scanner(testFile);
-			//Scanner kybd = new Scanner(System.in);
+			//Scanner kybd = new Scanner(testFile);
+			Scanner kybd = new Scanner(System.in);
 
 			// open the output file
 			//PrintWriter outFile = new PrintWriter("myoutput.txt");
@@ -61,6 +61,15 @@ public class BankAccountV4Main {
 				case 'I':
 					accountInfo(bank, outFile, kybd);
 					break;
+				case 'h':
+				case 'H':
+//					accountInfoPlus(bank, outFile, kybd);
+				case 'c':
+				case 'C':
+//					closeAccount(bank, outFile, kybd);
+				case 'R':
+				case 'r':
+//					reOpenAccount(bank, outFile, kybd);
 				case 'd':
 				case 'D':
 					deposit(bank, outFile, kybd);
@@ -135,6 +144,7 @@ public class BankAccountV4Main {
 				
 				BankAccount bankAcc = new BankAccount(first, last, social, accNum, type,  amount);
 				bank.openNewAccount(accNum, bankAcc);
+				
 			}
 			// closes the input file
 			sc.close();
@@ -423,7 +433,7 @@ public class BankAccountV4Main {
 							outFile.println();
 							outFile.printf("Amount to Deposit: %.2f \n" , amountToDeposit);
 							// Makes the deposit via Bank object method 
-							bank.getAcct(index).makeDeposit(index, amountToDeposit); 
+							bank.getAcct(index).makeDeposit( requestedAccount, index, amountToDeposit); 
 							outFile.printf("New Balance: $%.2f", 
 									bank.getAcct(index).getAccBal());
 							outFile.println();
@@ -530,7 +540,6 @@ public class BankAccountV4Main {
 
 								outFile.printf("\nAmount to Withdrawal: $%.2f", 
 										amountToWithdraw);
-								boolean deposit = false;//Telling bank 
 								bank.getAcct(index).makeWithdrawal(index, amountToWithdraw);
 								outFile.printf("\nNew Balance: "
 										+ "$%.2f", bank.getAcct(index).getAccBal());
@@ -693,14 +702,14 @@ public class BankAccountV4Main {
 				BankAccount bankAcc = new BankAccount( first, last, socSec,
 						accountNum, type, accountBal);
 				//Calling open new account
-				bank.openNewAccount(bankAcc);	
+				bank.openNewAccount(accountNum, bankAcc);	
 				outFile.println("Transaction Requested: Create New Account");
-				outFile.printf("New "+ bank.getAcct(numAccLoc).getAccType() +
+				outFile.printf("New "+ bankAcc.getAccType() +
 						" Account with account number \"" + accountNew 
 						+ "\" \nwith social security number \"" + socSec+ "\" "
 						+ "\nwas created and has a "
 						+ "balance of $" );
-				outFile.printf("%.2f \n", bank.getAcct(numAccLoc).getAccBal());
+				outFile.printf("%.2f \n", bankAcc.getAccBal());
 
 				outFile.flush();
 

@@ -1,5 +1,6 @@
 
 public class Transaction {
+	private int accNum;
 		private String type;
 		private double amount;
 		
@@ -8,7 +9,8 @@ public class Transaction {
 		type = "one";
 		amount = 0.00;
 	}
-	public Transaction(String typeGiven, double amt) {
+	public Transaction(int accountNum, String typeGiven, double amt) {
+		accNum = accountNum;
 		type = typeGiven;
 		amount = amt;
 	}

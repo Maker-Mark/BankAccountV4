@@ -168,57 +168,34 @@ public class Bank {
 	}
 
 
-	public void setAcctInfo( int index, double amount, Bank bank, boolean deposit)
-	{
-		BankAccount bankAcc = new BankAccount( bank.getAcct(index).getAccDet().getNameOnAcc().getFirst(), 
-				bank.getAcct(index).getAccDet().getNameOnAcc().getLast(), 
-				bank.getAcct(index).getAccDet().getSocSec(),
-				bank.getAcct(index).getAccNum(), 
-				bank.getAcct(index).getAccType(),
-				bank.getAcct(index).getAccBal());
-		int accNum = findAcct(index);
-		if (deposit) {
-
-
-			bank.getAcct(index).setAccBal((bank.getAcct(index).getAccBal()) + amount);
-
-		} else {
-
-			bank.getAcct(index).setAccBal((bank.getAcct(index).getAccBal()) - amount);
-
-
-		}
-
-	}
+//	public void setAcctInfo( int index, double amount, Bank bank, boolean deposit)
+//	{
+//		BankAccount bankAcc = new BankAccount( bank.getAcct(index).getAccDet().getNameOnAcc().getFirst(), 
+//				bank.getAcct(index).getAccDet().getNameOnAcc().getLast(), 
+//				bank.getAcct(index).getAccDet().getSocSec(),
+//				bank.getAcct(index).getAccNum(), 
+//				bank.getAcct(index).getAccType(),
+//				bank.getAcct(index).getAccBal());
+//		int accNum = findAcct(index);
+//		if (deposit) {
+//
+//
+//			bank.getAcct(index).setAccBal((bank.getAcct(index).getAccBal()) + amount);
+//
+//		} else {
+//
+//			bank.getAcct(index).setAccBal((bank.getAcct(index).getAccBal()) - amount);
+//
+//
+//		}
+//
+//	}
 
 
 		public BankAccount getAcct(int index)
-		{
-	//		BankAccount bankAcc = new BankAccount( bank.getAcct(index).getAccDet().getNameOnAcc().getFirst(), 
-	//				bank.getAcct(index).getAccDet().getNameOnAcc().getLast(), 
-	//				bank.getAcct(index).getAccDet().getSocSec(),
-	//				bank.getAcct(index).getAccNum(), 
-	//				bank.getAcct(index).getAccType(),
-	//				bank.getAcct(index).getAccBal());
-			
+		{			
 			return bankAccList.get(index);
 		}
-
-
-	//Getter for account object
-	//	public BankAccount getAcct(int acct, boolean accNum)
-	//	{
-	//		int index = findAcct(acct);
-	//		return bankAccList.get(index);
-	//	}
-	//Getter for account object
-////	public  BankAccount getAcct(int accNum)
-////	{
-////		int index = findAcct(accNum);
-////		System.out.println(index);
-//		System.out.println(bankAccList.size());
-////		return bankAccList.get(index);
-////	}
 
 	public  BankAccount getAcct(String social)
 	{
@@ -232,8 +209,5 @@ public class Bank {
 	public int getNumAcc() {
 		return bankAccList.size();
 	}
-
-
-
 
 }

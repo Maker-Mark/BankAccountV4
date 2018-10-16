@@ -10,7 +10,7 @@ public class BankAccount {
 	private String accType;
 	private boolean closed = false;
 	private double accBal;
-	ArrayList<Transaction> trans = new ArrayList() ; 
+	private ArrayList<Transaction> trans = new ArrayList<Transaction>()  ; 
 
 	//Default constructor
 	public BankAccount()
@@ -27,7 +27,6 @@ public class BankAccount {
 	public BankAccount(String first, String last, String social,int accountNum,
 			String type, double bal) 
 	{
-
 		accNum = accountNum;
 		accType = type;
 		accBal= bal;
@@ -36,26 +35,62 @@ public class BankAccount {
 		last = accDet.getNameOnAcc().getLast();
 		social= accDet.getSocSec();
 		closed = false;
-		Transaction transaction = new Transaction ("Open Account", bal);
-		
-		trans.add( transaction);
+		Transaction transaction = new Transaction (accountNum, "Open Account", bal);
 
+		trans.add(transaction);
+			
+		}
+		
+	
+	
+	//return array
+	public  ArrayList<Transaction>  getTransactions(int index, BankAccount bankAcc) 
+	{
+		
+		return trans;
 	}
-	public void makeDeposit(int index, double amount) {
+
+
+	public void addTransaction(BankAccount bankAcc, String type, double amount) {
+				int index = bankAcc.getAccNum();
+				Transaction transaction = new Transaction (bankAcc.getAccNum(), type, amount);
+				trans.add( transaction);
+//				System.out.println("SIZE IS NOW" + trans.size());
+	}
+
+	//Method for setting data member accDet,
+	//which is of Depositor-object type
+	public  void setAccDet(String first, String last, String social) 
+	{
+		accDet.setNameOnAcc(first, last);
+		accDet.setSocSec(social);
+	}
+	
+	public void makeDeposit(int accNum, int index, double amount) {
 		accBal += amount;
-		Transaction transaction = new Transaction( "deposit", amount);
-		trans.set(index, transaction);//Adding trans with associated index
+		Transaction transaction = new Transaction( accNum, "deposit", amount);
+		trans.add( transaction);//Adding trans with associated index
+		System.out.println("SIZE IS NOW" + trans.size());
+		
+		
+		
 	}
 
 	public boolean makeWithdrawal(int index, double amt) {
 		if( amt >= 0) {
-			Transaction transaction = new Transaction ("withdrawal", amt);
-			trans.add(index, transaction);
+			accBal -= amt;
+			
+			
+			Transaction transaction = new Transaction( accNum, "withdrawal", amt);
+			trans.add( transaction);
+			
 			return true;
 		}else {
 			return false; // message for less than 
 		}
 	}
+	
+	
 
 	public  boolean closeAcct(int index) {
 
@@ -63,6 +98,7 @@ public class BankAccount {
 		// Checks that account not in use
 		if(index != -1) {
 			closed = true;
+			
 
 			return true;
 		}
@@ -77,24 +113,7 @@ public class BankAccount {
 		closed = false;
 		//				return true;
 	}
-	public  ArrayList<Transaction>  getTransactions(int index, Bank bank) 
-	{
-		return trans;
-	}
 
-
-	public void addTransaction(BankAccount bankAcc, double amount) {
-		//		int index = bankAcc.getAccNum();
-		//		trans.set(index, amount);
-	}
-
-	//Method for setting data member accDet,
-	//which is of Depositor-object type
-	public  void setAccDet(String first, String last, String social) 
-	{
-		accDet.setNameOnAcc(first, last);
-		accDet.setSocSec(social);
-	}
 
 	//Setters and getters for rest of data members
 	public void setAccNum(int n) 
@@ -114,6 +133,7 @@ public class BankAccount {
 
 	public double getAccBal() 
 	{
+		
 		return accBal;
 	}
 
