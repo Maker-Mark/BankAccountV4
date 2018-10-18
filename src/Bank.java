@@ -22,22 +22,22 @@ public class Bank {
 	 * spot of bank account arry
 	 * Output: Void
 	 */
-	public boolean openNewAccount( BankAccount bankAccount)
-	{
-		int index = findAcct(bankAccount);// Checks that account not in use
-		if(index != -1) {
-			bankAccList.add(bankAccount);
-			System.out.print(" this is from open ");
-			return true;
-		} else {
-			return false;
-
-		}
-
-	}
+//	public boolean openNewAccount( BankAccount bankAccount)
+//	{
+//		int index = findAcct(bankAccount);// Checks that account not in use
+//		if(index != -1) {
+//			bankAccList.add(bankAccount);
+//			System.out.print(" this is from open ");
+//			return true;
+//		} else {
+//			return false;
+//
+//		}
+//
+//	}
 	/*
 	 * Method findAcc():
-	 * Input:requested account
+	 * Input:requested account object
 	 * Process: linear search requested account.
 	 * Output: index of account requested
 	 */
@@ -74,7 +74,6 @@ public class Bank {
 
 
 
-
 	public int findAcctSSN(String social )
 	{
 
@@ -86,8 +85,7 @@ public class Bank {
 				}
 			}
 			return -1;
-			//flag for no account found
-
+			//flag for no account found	
 		}
 		else
 		{
@@ -110,7 +108,7 @@ public class Bank {
 	{
 		int index = findAcct(accNum);// Checks that account not in use
 		if(index == -1) {
-						bankAccList.add(bankAcc);
+		bankAccList.add(bankAcc);
 			return true;
 		} else{
 			return false;
@@ -166,31 +164,6 @@ public class Bank {
 		}
 
 	}
-
-
-//	public void setAcctInfo( int index, double amount, Bank bank, boolean deposit)
-//	{
-//		BankAccount bankAcc = new BankAccount( bank.getAcct(index).getAccDet().getNameOnAcc().getFirst(), 
-//				bank.getAcct(index).getAccDet().getNameOnAcc().getLast(), 
-//				bank.getAcct(index).getAccDet().getSocSec(),
-//				bank.getAcct(index).getAccNum(), 
-//				bank.getAcct(index).getAccType(),
-//				bank.getAcct(index).getAccBal());
-//		int accNum = findAcct(index);
-//		if (deposit) {
-//
-//
-//			bank.getAcct(index).setAccBal((bank.getAcct(index).getAccBal()) + amount);
-//
-//		} else {
-//
-//			bank.getAcct(index).setAccBal((bank.getAcct(index).getAccBal()) - amount);
-//
-//
-//		}
-//
-//	}
-
 
 		public BankAccount getAcct(int index)
 		{			

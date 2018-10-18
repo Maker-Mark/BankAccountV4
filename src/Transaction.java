@@ -1,13 +1,13 @@
 
 public class Transaction {
-	private int accNum;
+		private int accNum;
 		private String type;
 		private double amount;
 		
 
 	public Transaction() {
 		type = "one";
-		amount = 0.00;
+		amount = -1;
 	}
 	public Transaction(int accountNum, String typeGiven, double amt) {
 		accNum = accountNum;
@@ -15,7 +15,17 @@ public class Transaction {
 		amount = amt;
 	}
 	
+	public Transaction(int accountNum, String typeGiven) {
+		accNum = accountNum;
+		type = typeGiven;
+		amount = -1;
+		
+	}
 	
+	
+	public int getTransAcc(){
+		return accNum;
+	}
 	
 	public void setTransType(String givenType) {
 		type = givenType;
@@ -32,6 +42,7 @@ public class Transaction {
 	{
 	return amount;
 	}
+	
 	
 	
 }
