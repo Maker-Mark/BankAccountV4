@@ -14,6 +14,7 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.ArrayList;
 
+
 public class BankAccountV4Main {
 
 
@@ -27,12 +28,12 @@ public class BankAccountV4Main {
 		Bank bank = new Bank();// default bank object creationmo	`
 
 		// Open input test cases file
-				File testFile = new File("myinput.txt");
-//		File testFile = new File("mytestcases.txt");
+//				File testFile = new File("myinput.txt");
+		File testFile = new File("mytestcases.txt");
 
 		// Create Scanner object
-//		Scanner kybd = new Scanner(testFile);
-				Scanner kybd = new Scanner(System.in);
+		Scanner kybd = new Scanner(testFile);
+//				Scanner kybd = new Scanner(System.in);
 
 		// open the output file
 		//PrintWriter outFile = new PrintWriter("myoutput.txt");
@@ -72,7 +73,7 @@ public class BankAccountV4Main {
 				break;
 			case 'R':
 			case 'r':
-				//					reOpenAccount(bank, outFile, kybd);
+									reOpenAccount(bank, outFile, kybd);
 				break;
 			case 'd':
 			case 'D':
@@ -195,19 +196,20 @@ public class BankAccountV4Main {
 			if (trans){
 				
 				outFile.printf("Transaction History for Account Number " + myBankAcc.getAccNum() +": \n" );
-				System.out.println("AMOUNT OF TRANS"+ myBankAcc.getNumTrans()); 
+				
 				ArrayList <Transaction> transaction = new ArrayList<Transaction>();
 				transaction = myBankAcc.getTransactions(myBankAcc, myBankAcc.getAccNum());
-				for(int i = 0; i < myBankAcc.getNumTrans() ;  i++ ) {	
 
-					outFile.printf("%s ",  transaction.get(i).getTransType());
+				for(int i = 0; i < myBankAcc.getNumTrans() ;  i++ ) {	
+					outFile.printf(" %s ",  transaction.get(i).getTransType());
 					if ( transaction.get(i).getTransAmt() >= 0) {
-						outFile.printf( "$%.2f \n", transaction.get(i).getTransAmt());
-					}
+						outFile.printf( "$%.2f ", transaction.get(i).getTransAmt());
+					}						
 					outFile.println();
 				}
-				
 			}
+			outFile.println();
+
 			outFile.println("\\----------------------------------------------"
 					+ "-----------------------------------------------/");
 		}
@@ -255,9 +257,32 @@ public class BankAccountV4Main {
 			temp = kybd.nextInt();
 			index = bank.findAcct(temp);
 			if(index >= 0) {
-				bank.getAcct(index).closeAcct(index);
+				bank.getAcct(index).closeAcct();
 				bank.getAcct(index).addTransaction(bank.getAcct(index), "Closed Account");
 			}
+			outFile.println("Transaction Requested: Close Account");
+			outFile.print("Sucessfully closed  account" + temp);
+
+		} else { 
+			System.out.println("Error: Account number must be 6 consecutive integers");
+		}
+
+	}
+	
+	
+	public static void	reOpenAccount(Bank bank, PrintWriter outFile, Scanner kybd) {
+
+		int temp, index ;
+		System.out.println("Enter the account number you wish to reopen:");
+		if(kybd.hasNextInt()) {
+			temp = kybd.nextInt();
+			index = bank.findAcct(temp);
+			if(index >= 0) {
+				bank.getAcct(index).reOpenAcct();
+				bank.getAcct(index).addTransaction(bank.getAcct(index), "Reopen Account");
+			}
+			outFile.println("Transaction Requested: Reopen Account");
+			outFile.println("Sucessfully reopened account " + temp);
 
 		} else { 
 			System.out.println("Error: Account number must be 6 consecutive integers");
@@ -273,7 +298,7 @@ public class BankAccountV4Main {
 		System.out.println("Enter Social Secial Security Number"
 				+ " to Get Account Information");
 		outFile.flush();
-		int  match = 0;	
+		
 		if (kybd.hasNextInt()) //validates input as integer
 		{
 			tempInput = kybd.next();	
@@ -301,23 +326,22 @@ public class BankAccountV4Main {
 				outFile.printf("$%9.2f ", bank.getAcct(temp).getAccBal());
 				outFile.printf("%-10s \n", bank.getAcct(temp).getStatus());
 
-				outFile.printf("******Transaction History*****  \n" );
+				outFile.printf("Transaction History for Account Number " + bank.getAcct(temp).getAccNum() +": \n" );
 	
 				ArrayList <Transaction> trans = new ArrayList<Transaction>();
 
 				trans = bank.getAcct(temp).getTransactions(bank.getAcct(temp), bank.getAcct(temp).getAccNum());
 
 				for(int i = 0; i < bank.getAcct(temp).getNumTrans() ;  i++ ) {	
-					outFile.println();
-					outFile.printf(" %s \n", trans.get(i).getTransType());
-					if ( trans.get(i).getTransAmt() >= 0) {
+					outFile.printf(" %s ", trans.get(i).getTransType());
+					if ( trans.get(i).getTransAmt() > 0) {
 						outFile.printf( "$%.2f ", trans.get(i).getTransAmt());
-					} 
-					outFile.println();
 					
+
+					}
+					outFile.println();
 				}
-
-
+				bank.getAcct(temp).addTransaction(bank.getAcct(temp), "Transaction Info");
 				outFile.printf(" \n \\----------------------------------------------"
 						+ "----------------------------------/");
 				outFile.flush();
@@ -399,6 +423,7 @@ public class BankAccountV4Main {
 				outFile.printf("$%9.2f \n", bank.getAcct(temp).getAccBal());
 				outFile.println("\\----------------------------------------------"
 						+ "----------------------------------/");
+				bank.getAcct(temp).addTransaction(bank.getAcct(temp), "Acc Info");
 				outFile.flush();
 
 			}
@@ -908,7 +933,7 @@ public class BankAccountV4Main {
 			} 
 			else 
 			{ 
-				bank.getAcct(index).closeAcct(index); //Closing account
+				bank.getAcct(index).closeAcct(); //Closing account
 				bank.deleteAcct(index);
 				outFile.println("Transaction Requested: Delete Account");
 				outFile.println("Successfully deleted account number: " + delAcct);

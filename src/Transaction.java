@@ -18,10 +18,8 @@ public class Transaction {
 	public Transaction(int accountNum, String typeGiven) {
 		accNum = accountNum;
 		type = typeGiven;
-		amount = -1;
-		
+		amount = -1;	
 	}
-	
 	
 	public int getTransAcc(){
 		return accNum;

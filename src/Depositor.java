@@ -24,7 +24,6 @@ public class Depositor {
 	{
 		socSec = s;
 	}
-
 	/*Setter for name on account via data member 
 	 *Object Name's instantiated "nameOnAcc"
 	 *To set the name.
@@ -34,7 +33,6 @@ public class Depositor {
 		nameOnAcc.setFirst(first);
 		nameOnAcc.setLast(last);
 	}
-	
 	//Object getters
 	public String getSocSec() 
 	{

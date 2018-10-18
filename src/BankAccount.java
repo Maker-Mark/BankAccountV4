@@ -21,7 +21,6 @@ public class BankAccount {
 		accBal = 0.00;
 		status  = "Open";
 		Transaction transaction = new Transaction (accNum, "Default", accBal);
-
 		trans.add(transaction);
 	}
 
@@ -38,15 +37,13 @@ public class BankAccount {
 		social= accDet.getSocSec();
 		status  = "Open";
 		Transaction transaction = new Transaction (accountNum, "Open Account", bal);
-
 		trans.add(transaction);
-
 	}
 	public void makeDeposit(int accNumber, int index, double amount) {
 		accBal += amount;
 		Transaction transaction = new Transaction( accNumber, "Deposit", amount);
 		trans.add(transaction);//Adding trans with associated index
-		System.out.println("SIZE IS NOW" + trans.size());
+		
 	}
 
 	public boolean makeWithdrawal(int accNumber, double amt) {
@@ -60,33 +57,25 @@ public class BankAccount {
 			return false; // message for less than
 		}
 	}
+	
+	
 	//return array
 	public  ArrayList<Transaction>  getTransactions(BankAccount bankAcc, int accNum)
 	{
-
-	//
-	// 	for(int i = 1; i < trans.size(); i++ ) {
-	// 	if (trans.get(i).getTransAcc() == accNum)
-	// 		theseTrans.add(trans.get(i));
-	// }
-
-//		transaction = trans.get(index);
 		return trans ;
 	}
 
 
 	public void addTransaction(BankAccount bankAcc, String type, double amount) {
-		int index = bankAcc.getAccNum();
 		Transaction transaction = new Transaction (bankAcc.getAccNum(), type, amount);
 		trans.add( transaction);
-		//				System.out.println("SIZE IS NOW" + trans.size());
+
 	}
-	
+
 	public void addTransaction(BankAccount bankAcc, String type) {
-		int index = bankAcc.getAccNum();
 		Transaction transaction = new Transaction (bankAcc.getAccNum(), type);
 		trans.add( transaction);
-		//				System.out.println("SIZE IS NOW" + trans.size());
+		
 	}
 
 	//Method for setting data member accDet,
@@ -98,49 +87,31 @@ public class BankAccount {
 	}
 
 
+	public  void closeAcct() {
+		status  = "Closed";
 
-	public  boolean closeAcct(int index) {
-
-		//				 index = bank.findAcct(bank.findAcct(index));
-		// Checks that account not in use
-		if(index != -1) {
-			status  = "Closed";
-
-			return true;
-		}
-		return false;
 	}
 
-	public  void reOpenAcct(BankAccount bankAcc) {
-
-		//				 int index = bankAcc.getAccNum();
-		//				// Checks that account not in use
-		//				if(index != -1) {
-		status  = "Open";		//				return true;
+	public  void reOpenAcct() {
+		status  = "Open";		
 	}
-
 	//Setters and getters for rest of data members
 	public void setAccNum(int n)
 	{
 		accNum = n;
 	}
-
 	public void setAccType(String type)
 	{
 		accType = type;
 	}
-
 	public void setAccBal(double bal)
 	{
 		accBal = bal;
 	}
-
 	public double getAccBal()
 	{
-
 		return accBal;
 	}
-
 
 	public String getAccType()
 	{
