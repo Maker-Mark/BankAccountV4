@@ -1,12 +1,8 @@
 //NAME: Mark Goldstein
 /**
- * 
  * @author Mark Goldstein
- * @version 0.03
- * @date 10/10/2018
- * @description:
- * Migrated technical functionality of main methods to Bank
- * Class object while keeping all I/O in the main program.
+ * @version 0.04
+ * @date 10/22/2018
  * 
  */
 import java.io.*;
@@ -18,26 +14,25 @@ import java.util.ArrayList;
 public class BankAccountV4Main {
 
 
-
 	public static void main(String[] args) throws IOException {
 		// constant definitions
 
 		char choice; // menu item selected
 		boolean not_done = true; // loop control flag
 
-		Bank bank = new Bank();// default bank object creationmo	`
+		Bank bank = new Bank();// default bank object creation
 
 		// Open input test cases file
-//				File testFile = new File("myinput.txt");
+		//				File testFile = new File("myinput.txt");
 		File testFile = new File("mytestcases.txt");
 
 		// Create Scanner object
 		Scanner kybd = new Scanner(testFile);
-//				Scanner kybd = new Scanner(System.in);
+		//				Scanner kybd = new Scanner(System.in);
 
 		// open the output file
-		//PrintWriter outFile = new PrintWriter("myoutput.txt");
-		PrintWriter outFile = new PrintWriter(System.out);
+		PrintWriter outFile = new PrintWriter("myoutput.txt");
+		//		PrintWriter outFile = new PrintWriter(System.out);
 		boolean trans = true;
 		/* fill and print initial database */
 		readAccts(bank);
@@ -73,7 +68,7 @@ public class BankAccountV4Main {
 				break;
 			case 'R':
 			case 'r':
-									reOpenAccount(bank, outFile, kybd);
+				reOpenAccount(bank, outFile, kybd);
 				break;
 			case 'd':
 			case 'D':
@@ -113,6 +108,37 @@ public class BankAccountV4Main {
 	}
 
 	/*
+	 * Method menu(): 
+	 * Input: none 
+	 * Process: Prints the menu of transaction choices
+	 * Output: Prints the menu of transaction choices
+	 */
+
+
+	public static void menu() {
+		System.out.println();
+		System.out.println("Select one of the following transactions:");
+		System.out.println("\t****************************");
+		System.out.println("\t    List of Choices         ");
+		System.out.println("\t****************************");
+		System.out.println("\t     W -- Withdrawal");
+		System.out.println("\t     D -- Deposit");
+		System.out.println("\t     N -- New Account");
+		System.out.println("\t     B -- Balance Inquiry");
+		System.out.println("\t     C -- Close Account");
+		System.out.println("\t     R -- Reopen Account");
+		System.out.println("\t     I -- Account Information");
+		System.out.println("\t     H -- Account Information with Transactions");
+		System.out.println("\t     X -- Delete Account");
+		System.out.println("\t     Q -- Quit");
+		System.out.print("\tEnter your selection: ");
+		System.out.println();
+
+
+	}
+
+
+	/*
 	 * Method readAccts(): 
 	 * Input: "myinput.txt", which uses a constructor to initialize
 	 * the data members of a new account.
@@ -147,8 +173,10 @@ public class BankAccountV4Main {
 			type = lineTok.nextToken();
 			amount = Double.parseDouble(lineTok.nextToken());
 
-			BankAccount bankAcc = new BankAccount(first, last, social, accNum, type,  amount);
+			BankAccount bankAcc = new BankAccount(first, last, social,
+					accNum, type,  amount);
 			bank.openNewAccount(accNum, bankAcc);
+			//Creates new account 
 
 		}
 		// closes the input file
@@ -172,9 +200,11 @@ public class BankAccountV4Main {
 
 		outFile.println("\t\t\t\t\t\tDatabase of Bank Accounts\n");
 		outFile.printf("First \t   Last\t\t    Social Security#    Account#"
-				+ "\tAccount Type   Balance \t Status \n");
-		outFile.println("/----------------------------------------------"
-				+ "-----------------------------------------------\\");
+				+ "\tAccount Type   Balance \t  Status \n");
+		outFile.println("/---------------------------------------------"
+				+ "------------------------------------------\\");
+
+
 
 		for (int index = 0; index < bank.getNumAcc(); index++) {
 			outFile.println();
@@ -183,22 +213,23 @@ public class BankAccountV4Main {
 			outFile.printf("%-11s", myName.getFirst());
 			outFile.printf("%-16s", myName.getLast());
 			outFile.printf("%-17s",myBankAcc.getAccDet().getSocSec());
-
 			outFile.printf("%-13s", myBankAcc.getAccNum());
 			outFile.printf("%-14s", myBankAcc.getAccType());
-			outFile.printf("$%9.2f", myBankAcc.getAccBal());
-			outFile.printf("%12s", myBankAcc.getStatus());
+			outFile.printf("$%7.2f", myBankAcc.getAccBal());
+			outFile.printf("%8s", myBankAcc.getStatus());
 			outFile.println();
 
-			
+
 			outFile.println();
 
 			if (trans){
-				
-				outFile.printf("Transaction History for Account Number " + myBankAcc.getAccNum() +": \n" );
-				
+
+				outFile.printf("Transaction History for Account Number " +
+						myBankAcc.getAccNum() +": \n" );
+
 				ArrayList <Transaction> transaction = new ArrayList<Transaction>();
-				transaction = myBankAcc.getTransactions(myBankAcc, myBankAcc.getAccNum());
+				transaction = myBankAcc.getTransactions(myBankAcc,
+						myBankAcc.getAccNum());
 
 				for(int i = 0; i < myBankAcc.getNumTrans() ;  i++ ) {	
 					outFile.printf(" %s ",  transaction.get(i).getTransType());
@@ -210,66 +241,43 @@ public class BankAccountV4Main {
 			}
 			outFile.println();
 
-			outFile.println("\\----------------------------------------------"
-					+ "-----------------------------------------------/");
+			outFile.println("\\--------------------------------------------------"
+					+ "-------------------------------------/");
 		}
 		// Flushes the output file
 		outFile.flush();
 	}
 
-	/*
-	 * Method menu(): 
-	 * Input: none 
-	 * Process: Prints the menu of transaction choices
-	 * Output: Prints the menu of transaction choices
-	 */
-
-	public static void menu() {
-		System.out.println();
-		System.out.println("Select one of the following transactions:");
-		System.out.println("\t****************************");
-		System.out.println("\t    List of Choices         ");
-		System.out.println("\t****************************");
-		System.out.println("\t     W -- Withdrawal");
-		System.out.println("\t     D -- Deposit");
-		System.out.println("\t     N -- New Account");
-		System.out.println("\t     B -- Balance Inquiry");
-		System.out.println("\t     C -- Close Account");
-		System.out.println("\t     R -- Reopen Account");
-		System.out.println("\t     I -- Account Information");
-		System.out.println("\t     H -- Account Information with Transactions");
-		System.out.println("\t     X -- Delete Account");
-		System.out.println("\t     Q -- Quit");
-		System.out.print("\tEnter your selection: ");
-		System.out.println();
-
-
-	}
 
 
 
 
 	public static void	closeAccount(Bank bank, PrintWriter outFile, Scanner kybd) {
+		int temp, index;
 
-		int temp, index ;
 		System.out.println("Enter the account number you wish to close:");
 		if(kybd.hasNextInt()) {
 			temp = kybd.nextInt();
 			index = bank.findAcct(temp);
+			//Checks validity of account
 			if(index >= 0) {
 				bank.getAcct(index).closeAcct();
-				bank.getAcct(index).addTransaction(bank.getAcct(index), "Closed Account");
+				bank.getAcct(index).addTransaction(bank.getAcct(index),
+						"Closed Account");
 			}
 			outFile.println("Transaction Requested: Close Account");
-			outFile.print("Sucessfully closed  account" + temp);
+			outFile.println("Sucessfully closed  account " + temp);
 
 		} else { 
+
 			System.out.println("Error: Account number must be 6 consecutive integers");
 		}
+		outFile.println();
+		outFile.flush();
 
 	}
-	
-	
+
+
 	public static void	reOpenAccount(Bank bank, PrintWriter outFile, Scanner kybd) {
 
 		int temp, index ;
@@ -279,7 +287,8 @@ public class BankAccountV4Main {
 			index = bank.findAcct(temp);
 			if(index >= 0) {
 				bank.getAcct(index).reOpenAcct();
-				bank.getAcct(index).addTransaction(bank.getAcct(index), "Reopen Account");
+				bank.getAcct(index).addTransaction(bank.getAcct(index),
+						"Reopen Account");
 			}
 			outFile.println("Transaction Requested: Reopen Account");
 			outFile.println("Sucessfully reopened account " + temp);
@@ -287,6 +296,8 @@ public class BankAccountV4Main {
 		} else { 
 			System.out.println("Error: Account number must be 6 consecutive integers");
 		}
+		outFile.println();
+		outFile.flush();
 
 	}
 
@@ -298,7 +309,7 @@ public class BankAccountV4Main {
 		System.out.println("Enter Social Secial Security Number"
 				+ " to Get Account Information");
 		outFile.flush();
-		
+
 		if (kybd.hasNextInt()) //validates input as integer
 		{
 			tempInput = kybd.next();	
@@ -312,9 +323,9 @@ public class BankAccountV4Main {
 				outFile.print("Sucessfully found account linked to SS# \"" 
 						+ tempInput+ "\" below:\n\n");
 				outFile.printf("First \t   Last\t\t    Social Security#    Account#"
-						+ "\tAccount Type   Balance \t Status \n");
-				outFile.println("/----------------------------------------------"
-						+ "------------------------------------------\\");
+						+ "\tAccount Type   Balance \t  Status \n");
+				outFile.println("/--------------------------------------------"
+						+ "-------------------------------------------\\");
 				outFile.printf("%-11s", bank.getAcct((temp)).
 						getAccDet().getNameOnAcc()
 						.getFirst());
@@ -323,27 +334,30 @@ public class BankAccountV4Main {
 				outFile.printf("%-17s", bank.getAcct(temp).getAccDet().getSocSec());
 				outFile.printf("%-13s", bank.getAcct(temp).getAccNum());
 				outFile.printf("%-14s", bank.getAcct(temp).getAccType());
-				outFile.printf("$%9.2f ", bank.getAcct(temp).getAccBal());
-				outFile.printf("%-10s \n", bank.getAcct(temp).getStatus());
+				outFile.printf("$%7.2f ", bank.getAcct(temp).getAccBal());
+				outFile.printf("%8s \n", bank.getAcct(temp).getStatus());
 
-				outFile.printf("Transaction History for Account Number " + bank.getAcct(temp).getAccNum() +": \n" );
-	
+				outFile.printf("Transaction History for Account Number " +
+						bank.getAcct(temp).getAccNum() +": \n" );
+
 				ArrayList <Transaction> trans = new ArrayList<Transaction>();
 
-				trans = bank.getAcct(temp).getTransactions(bank.getAcct(temp), bank.getAcct(temp).getAccNum());
+				trans = bank.getAcct(temp).getTransactions(bank.getAcct(temp),
+						bank.getAcct(temp).getAccNum());
 
 				for(int i = 0; i < bank.getAcct(temp).getNumTrans() ;  i++ ) {	
 					outFile.printf(" %s ", trans.get(i).getTransType());
 					if ( trans.get(i).getTransAmt() > 0) {
 						outFile.printf( "$%.2f ", trans.get(i).getTransAmt());
-					
+
 
 					}
 					outFile.println();
 				}
-				bank.getAcct(temp).addTransaction(bank.getAcct(temp), "Transaction Info");
-				outFile.printf(" \n \\----------------------------------------------"
-						+ "----------------------------------/");
+				bank.getAcct(temp).addTransaction(bank.getAcct(temp),
+						"Account Info Plus");
+				outFile.printf(" \n \\-------------------------------------"
+						+ "--------------------------------------------------/");
 				outFile.flush();
 
 			}
@@ -409,9 +423,9 @@ public class BankAccountV4Main {
 				outFile.print("Sucessfully found account linked to SS# \"" 
 						+ tempInput+ "\" below:\n\n");
 				outFile.printf("First \t   Last\t\t    Social Security#    Account#"
-						+ "\tAccount Type   Balance \n");
-				outFile.println("/----------------------------------------------"
-						+ "----------------------------------\\");
+						+ "\tAccount Type   Balance \t Status \n");
+				outFile.println("/--------------------------------------------"
+						+ "-------------------------------------------\\");
 				outFile.printf("%-11s", bank.getAcct((temp)).
 						getAccDet().getNameOnAcc()
 						.getFirst());
@@ -420,10 +434,11 @@ public class BankAccountV4Main {
 				outFile.printf("%-17s", bank.getAcct(temp).getAccDet().getSocSec());
 				outFile.printf("%-13s", bank.getAcct(temp).getAccNum());
 				outFile.printf("%-14s", bank.getAcct(temp).getAccType());
-				outFile.printf("$%9.2f \n", bank.getAcct(temp).getAccBal());
-				outFile.println("\\----------------------------------------------"
-						+ "----------------------------------/");
-				bank.getAcct(temp).addTransaction(bank.getAcct(temp), "Acc Info");
+				outFile.printf("$%7.2f ", bank.getAcct(temp).getAccBal());
+				outFile.printf("%6s \n", bank.getAcct(temp).getStatus());
+				outFile.printf("\\-----------------------------------------"
+						+ "----------------------------------------------/");
+				bank.getAcct(temp).addTransaction(bank.getAcct(temp), "Account Info");
 				outFile.flush();
 
 			}
@@ -503,7 +518,8 @@ public class BankAccountV4Main {
 					outFile.println("Account Number: " + requestedAccount);
 					outFile.printf("Current Balance: $%.2f", 
 							bank.getAcct(index).getAccBal());
-					bank.getAcct(index).addTransaction(bank.getAcct(index), "Balance Inquiry");
+					bank.getAcct(index).addTransaction(bank.getAcct(index),
+							"Balance Inquiry");
 					outFile.println();
 				}
 			}
@@ -585,22 +601,27 @@ public class BankAccountV4Main {
 					} 
 					else 
 					{
-						
-					if(bank.getAcct(index).getStatus().equalsIgnoreCase("Open")) {
-						outFile.println("Transaction Requested: Deposit");
-						outFile.println("Account Number: " + requestedAccount);
-						outFile.printf("Old Balance: $%.2f", 
-								bank.getAcct(index).getAccBal());
-						outFile.println();
-						outFile.printf("Amount to Deposit: %.2f \n" , amountToDeposit);
-						// Makes the deposit via Bankn object method 
-						bank.getAcct(index).makeDeposit( requestedAccount, index, amountToDeposit); 
-						outFile.printf("New Balance: $%.2f", 
-								bank.getAcct(index).getAccBal());
-						outFile.println();
-					} else {
-					outFile.print("ERROR: Account" + requestedAccount+ " is closed");
-					}
+
+						if(bank.getAcct(index).getStatus().equalsIgnoreCase("Open")) {
+							outFile.println("Transaction Requested: Deposit");
+							outFile.println("Account Number: " + requestedAccount);
+							outFile.printf("Old Balance: $%.2f", 
+									bank.getAcct(index).getAccBal());
+							outFile.println();
+							outFile.printf("Amount to Deposit: %.2f \n" 
+									, amountToDeposit);
+							// Makes the deposit via Bankn object method 
+							bank.getAcct(index).makeDeposit( requestedAccount, index,
+									amountToDeposit); 
+							outFile.printf("New Balance: $%.2f", 
+									bank.getAcct(index).getAccBal());
+							outFile.println();
+						} else {
+							outFile.println("Transaction Requested: Deposit");
+							outFile.print("ERROR: Account " + 
+									requestedAccount+ " is closed!");
+							outFile.println();
+						}
 					}
 				} 
 				else 
@@ -689,7 +710,10 @@ public class BankAccountV4Main {
 						{// User trying to withdraw more than they have
 							outFile.println("Transaction Requested: Withdrawal");
 							outFile.println("Account Number: " + requestedAccount);
-							outFile.printf("Error: Insufficient funds!"
+							outFile.println("Error: Insufficient funds!");
+							outFile.printf("You cannot"
+									+ " take out $" + amountToWithdraw
+
 									+ " You currently have $%.2f",
 									bank.getAcct(index).getAccBal());
 							outFile.println();
@@ -697,20 +721,25 @@ public class BankAccountV4Main {
 						}
 						else 
 						{ // Making successful withdrawal
-							if(bank.getAcct(index).getStatus().equalsIgnoreCase("Open")) {
-							outFile.println("Transaction Requested: Withdrawal");
-							outFile.println("Account Number: " + requestedAccount);
-							outFile.printf("Old Balance: "
-									+ "$%.2f ", bank.getAcct(index).getAccBal());
+							if(bank.getAcct(index).getStatus().
+									equalsIgnoreCase("Open")) {
+								outFile.println("Transaction Requested: Withdrawal");
+								outFile.println("Account Number: " + requestedAccount);
+								outFile.printf("Old Balance: "
+										+ "$%.2f ", bank.getAcct(index).getAccBal());
 
-							outFile.printf("\nAmount to Withdrawal: $%.2f", 
-									amountToWithdraw);
-							bank.getAcct(index).makeWithdrawal(bank.getAcct(index).getAccNum(),  amountToWithdraw);
-							outFile.printf("\nNew Balance: "
-									+ "$%.2f", bank.getAcct(index).getAccBal());
-							outFile.println();
+								outFile.printf("\nAmount to Withdrawal: $%.2f", 
+										amountToWithdraw);
+								bank.getAcct(index).
+								makeWithdrawal(bank.getAcct(index).getAccNum()
+										, amountToWithdraw);
+								outFile.printf("\nNew Balance: "
+										+ "$%.2f", bank.getAcct(index).getAccBal());
+								outFile.println();
 							}else {
-								outFile.println("ERROR: Account " + requestedAccount + " is Closed!");
+								outFile.println("Transaction Requested: Withdrawal");
+								outFile.println("ERROR: Account " + requestedAccount +
+										" is Closed!");
 							}
 						}
 					}
@@ -754,16 +783,16 @@ public class BankAccountV4Main {
 	public static void newAcct(Bank bank, 
 			PrintWriter outFile, Scanner kybd) 
 	{
-		int accountNew = 0 , accountNum,  index;
+		int accountNew , accountNum,  index;
 		double accountBal;
 		String accLength;
 		// Sets up new account as string to ensure validity
 		char choice;
-		String temp = null,
-				socSec,
-				first = null, 
-				last = null, 
-				type = null;
+		String  temp,
+		socSec,
+		first, 
+		last, 
+		type = null;
 		System.out.println("Enter New Account Number:");
 
 		// Checks read-in the account number
@@ -776,6 +805,7 @@ public class BankAccountV4Main {
 				outFile.printf("Error: Account number entered invalid!"
 						+ "\nAccount numbers must be a 6-digit integer "
 						+ "\nbetween 100000 and 999999.\n");
+				outFile.println();
 				outFile.flush();
 			} 
 			else 
@@ -816,7 +846,8 @@ public class BankAccountV4Main {
 					int success = bank.findAcctSSN(temp);
 					//Prompt for user to choose an account type
 					if(success == -1) { 
-						System.out.println("Select an account type from following options:");
+						System.out.println("Select an account type from"
+								+ " following options:");
 						System.out.println();
 						System.out.println("\t****************************");
 						System.out.println("\t    List of Choices         ");
@@ -877,6 +908,7 @@ public class BankAccountV4Main {
 					outFile.printf("Error: Account number entered invalid!"
 							+ "\nAccount numbers must be a 6-digit integer "
 							+ "\nbetween 100000 and 999999.\n");
+					outFile.println();
 					outFile.flush();
 
 				}
@@ -928,7 +960,8 @@ public class BankAccountV4Main {
 			{
 				outFile.println("Transaction Requested: Delete Account");
 				outFile.printf("Error: Account "+delTemp+" is not empty.\nRemove $");
-				outFile.printf("%.2f %s", bank.getAcct(bank.findAcct(delAcct)).getAccBal(), 
+				outFile.printf("%.2f %s", 
+						bank.getAcct(bank.findAcct(delAcct)).getAccBal(), 
 						"from account before deleting.\n");
 			} 
 			else 

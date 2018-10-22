@@ -5,11 +5,11 @@ public class Name {
 
 	private String last;
 	private String first;
-	
+
 	// Default constructor
 	public Name() 
 	{
-		
+
 	}
 	// Constructor when first and last name is sent
 	public Name(String firstName, String lastName) 
@@ -17,9 +17,7 @@ public class Name {
 		last = lastName;
 		first = firstName;	
 	}
-	/* 
-	 * Setters and Getters for first and last name
-	 */
+	//Setters and Getters for first and last name
 	public void setFirst (String f)
 	{
 		first = f;
@@ -28,7 +26,6 @@ public class Name {
 	{
 		last = l;
 	}
-
 	public String getFirst() 
 	{
 		return first;
@@ -37,6 +34,5 @@ public class Name {
 	{
 		return last;
 	}
-
 }
 

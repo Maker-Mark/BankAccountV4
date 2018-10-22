@@ -7,7 +7,6 @@ import java.util.ArrayList;
 public class Bank {
 
 	private  ArrayList <BankAccount> bankAccList ;
-	
 
 	//Default constructor for creating bank account
 	public Bank()
@@ -15,44 +14,32 @@ public class Bank {
 		bankAccList = new ArrayList<BankAccount>();
 	}
 
-
-
 	/*
-	 * Method openNewAccount():
-	 * Input: Parameters for making a new account
-	 * with attributes being read in ie from a file or keyboard.
-	 * Process: Makes new account in bankAcct array,
-	 *  at numAccts spot, uses setter methods
-	 * to set the details. Nested classes are used
-	 * and passed to successfully do this.
-	 * Output:
+	 *Opens new account when being sent an account number and 
+	 *Bank Account object
 	 */
 
 	public boolean openNewAccount( int accNum, BankAccount bankAcc)
 	{
-		int index = findAcct(accNum);// Checks that account not in use
+		int index = findAcct(accNum);
+		// Checks that account not in use
 		if(index == -1) {
 			bankAccList.add(bankAcc);
 			return true;
-		} else{
+		} else {
 			return false;
-			// numAccts++;
+
 		}
 	}
-	
-
 
 	/*
 	 * Method deleteAcct():
-	 * Input:  index of account to delete
-	 * Process: Manipulates BankAccount object array
-	 * to remove and replace the deleted account.
+	 * Deletes account object from arraylist 
 	 * Output: none
 	 */
 	public boolean deleteAcct(int index )
 	{
-		//Efficiently deletes account by cutting last account in array
-		//and replacing the selected account found for deletion.
+		//Makes sure account is there
 		if( index != 1 ){
 			bankAccList.remove(index); 
 			return true;
@@ -60,7 +47,6 @@ public class Bank {
 			return false;
 		}
 	}
-
 	/*
 	 * Method findAcc():
 	 * Input:requested account object
@@ -78,27 +64,22 @@ public class Bank {
 
 		return -1;
 	}
-
-	/**
-	 * Method for find acct when account number 
-	 * @param index
-	 * @return
-	 */
+	// Method for find account when given  account number 
 	public int findAcct(int accNum)
 	{
 		for (int i = 0; i < bankAccList.size(); i++) {
-			//			System.out.println(bankAccList.get(i).getAccNum());
-			//			System.out.println(accNum);
+
 			if (bankAccList.get(i).getAccNum() == accNum ) {
 				System.out.println(bankAccList.get(i).getAccNum());
 				return i;// returns index
 			}
 		}
-		return -1;
+		return - 1;
 	}
+
+	//Method to find account given SSN
 	public int findAcctSSN(String social )
 	{
-
 		if(social.length() == 9) {
 			for (int index = 0; index < bankAccList.size(); index++) {
 				if (bankAccList.get(index).getAccDet().
@@ -116,12 +97,11 @@ public class Bank {
 		}
 	}
 
-
 	public BankAccount getAcct(int index)
 	{			
 		return bankAccList.get(index);
 	}
-
+	//Gets account
 	public  BankAccount getAcct(String social)
 	{
 		int index = findAcctSSN(social) ;
@@ -131,32 +111,14 @@ public class Bank {
 	}
 
 
-	/**
-	 * Method setAcctInfo():
-	 * Input:Index of account, amount and if deposit.
-	 * Process: Does deposits and withdrawals using boolean to distinguish
-	 * if making a deposit, if not, subtracts the amount from acct bal and
-	 * sets the account balance to that amount.
-	 * Outout:None
-	 */
-	public void setAcct( BankAccount bankAcct, boolean deposit)
+	public void setAcct( int index, BankAccount acct)
 	{
 
-		int index = findAcct(bankAcct);
-		bankAcct = bankAccList.get(index);
-		if (deposit) {
-			bankAccList.set(index, bankAcct);
-
-			// WIll be sending a put together object to replace the
-			//one that was at that index, effectively editing the info
-		}
-		else
-		{
-			bankAccList.set(index, bankAcct);
-		}
-
+		// Set account at index of accounts arraylist to account
+		bankAccList.set(index, acct);
 	}
 
+	//Gets number accounts
 	public int getNumAcc() {
 		return bankAccList.size();
 	}

@@ -9,16 +9,16 @@ public class Depositor {
 	//Default constructor for Depositor
 	public Depositor()
 	{
-		 nameOnAcc = new Name();
-		 socSec = "none";
+		nameOnAcc = new Name();
+		socSec = "none";
 	}
-	
+
 	//Constructor for Depositor object with attributes being passes
 	public Depositor(String first, String last,String soc){
 		nameOnAcc = new Name(first, last);
 		socSec = soc;
 	}
-	
+
 	//Social security setter
 	public void setSocSec(String s) 
 	{
