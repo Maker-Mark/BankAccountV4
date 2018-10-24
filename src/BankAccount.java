@@ -10,9 +10,11 @@ public class BankAccount {
 	private String accType;
 	private String status  = "Open";
 	private double accBal;
-	private ArrayList<Transaction> trans = new ArrayList<>()  ;
+	private ArrayList<Transaction> trans   ;
 
 	//Default constructor
+	// whenever I make a new Bank account, with its constuctor, I need to make the new objectrs that
+	//it has
 	public BankAccount()
 	{
 		accDet = new Depositor();
